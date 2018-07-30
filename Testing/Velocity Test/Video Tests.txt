@@ -1,0 +1,34 @@
+https://drive.google.com/drive/folders/1Wk-I2aVKAqqxkTGbfSycXROZXQlM_Gm1?usp=sharing
+Use VLC 
+
+AltTest1.MOV
+0.001 rad/s
+.29 rad to .6 rad = .31rad
+00:00:08.853 to 00:05:26.430
+5 minutes 17.58 seconds = 317.58 seconds
+.31/317.58 = .000976 rad/s
+2.4% error
+
+AltTest2.MOV
+0.002 rad/s
+.29 rad to .6 rad = .31 rad
+00:00:03,105 to 00:02:44,267
+2 minutes 41.162 seconds = 161.162 seconds
+.31/161.162 = .001924 rad/s
+3.8% error
+
+AzTest1
+.004 rad/s
+-.20 rad to .20 rad
+00:00:01,354 to 00:01:46,206
+1 minute 44.852 seconds = 104.852 seconds
+.4/104.852 = .003815 rad/s
+4.625% error
+
+AzTest2
+.006 rad/s
+-.20 rad to .20 rad
+00:00:02,104 to 00:01:11,668
+1 minute 9.564 seconds = 69.564 seconds
+.4/69.564 = .005750 rad/s
+4.167% error
