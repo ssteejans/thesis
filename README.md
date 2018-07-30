@@ -1,3 +1,3 @@
 # thesis
-
-Test Push
+Repository for thesis project
+Author: Samuel Artho-Bentz
