@@ -114,11 +114,11 @@ end
 
 %% Reassociate all points with new origin
 % New origin at bottom middle pair 
-originPair = 15; % Determined manually
-originCoord = [mean([pairedCoord(originPair, 1), pairedCoord(originPair,3)]) mean([pairedCoord(originPair, 2), pairedCoord(originPair,4)])];
-
-% All points wrt origin
-pairedCoord = [pairedCoord(:,1)-originCoord(1), -pairedCoord(:,2)+originCoord(2), pairedCoord(:,3)-originCoord(1), -pairedCoord(:,4)+originCoord(2)];
+middleBottomPair = 15; % Determined manually (az = 0, alt = 17)
+middleBottomCoord = [mean([pairedCoord(middleBottomPair, 1), pairedCoord(middleBottomPair,3)]) mean([pairedCoord(middleBottomPair, 2), pairedCoord(middleBottomPair,4)])];
+middleBottomWRTZero = [0, tand(17)*dBoardMin_in];
+% All points wrt 0,0
+pairedCoord = [pairedCoord(:,1)-middleBottomCoord(1), -pairedCoord(:,2)+middleBottomCoord(2)+middleBottomWRTZero(2), pairedCoord(:,3)-middleBottomCoord(1), -pairedCoord(:,4)+middleBottomCoord(2)+middleBottomWRTZero(2)];
 
 %% Find average point between each pair
 for i=1:length(pairedCoord)
@@ -156,35 +156,56 @@ pairedCoord(25,7:8) = [10, 35];
 
 %% Associate Theoretical x,y distances with each pair
 % pairedCoord = [x1, y1, x2, y2, xavg, yavg, azCmd, altCmd, xTheoretical, yTheoretical]
-% uses basic trig referencing az,alt = 0,0 then subtracts off the
-% difference between 0,0 and 0,17
+
 % 
 for i=1:length(pairedCoord)
-    pairedCoord(i,9) = dBoardMin_in*tand(pairedCoord(i, 7))-dBoardMin_in*tand(pairedCoord(15, 7));
-    pairedCoord(i,10) = dBoardMin_in*tand(pairedCoord(i,8)/cosd(pairedCoord(i,7)))-dBoardMin_in*tand(pairedCoord(15,8)/cosd(pairedCoord(15,7)));
+    pairedCoord(i,9) = dBoardMin_in*tand(pairedCoord(i, 7)); 
+    pairedCoord(i,10) = dBoardMin_in*tand(pairedCoord(i,8))/cosd(pairedCoord(i,7)); 
 end
 
 %% Calc Percent Error of each point from its theoretical location
 % This gives poor comparison values because the range of distances examined
 % are so different. Better to back calculate from x1,y1,etc into what the
 % angle its looking at is. This will be better for doing error. 
-% for i = 1:length(pairedCoord)
-%     percentErrorDistance(i,1) = abs((pairedCoord(i,1)-pairedCoord(i,9))/pairedCoord(i,9))*100;
-%     percentErrorDistance(i,2) = abs((pairedCoord(i,2)-pairedCoord(i,10))/pairedCoord(i,10))*100;
-%     percentErrorDistance(i,3) = abs((pairedCoord(i,3)-pairedCoord(i,9))/pairedCoord(i,9))*100;
-%     percentErrorDistance(i,4) = abs((pairedCoord(i,4)-pairedCoord(i,10))/pairedCoord(i,10))*100;
-%     percentErrorDistance(i,5) = abs((pairedCoord(i,5)-pairedCoord(i,9))/pairedCoord(i,9))*100;
-%     percentErrorDistance(i,6) = abs((pairedCoord(i,6)-pairedCoord(i,10))/pairedCoord(i,10))*100;
-%     absoluteErrorDistance(i,1) =  abs((pairedCoord(i,1)-pairedCoord(i,9)));
-%     absoluteErrorDistance(i,2) =  abs((pairedCoord(i,2)-pairedCoord(i,10)));
-%     absoluteErrorDistance(i,3) =  abs((pairedCoord(i,3)-pairedCoord(i,9)));
-%     absoluteErrorDistance(i,4) =  abs((pairedCoord(i,4)-pairedCoord(i,10)));
-%     absoluteErrorDistance(i,5) =  abs((pairedCoord(i,5)-pairedCoord(i,9)));
-%     absoluteErrorDistance(i,6) =  abs((pairedCoord(i,6)-pairedCoord(i,10)));
-% end
+for i = 1:length(pairedCoord)
+    percentErrorDistance(i,1) = abs((pairedCoord(i,1)-pairedCoord(i,9))/pairedCoord(i,9))*100;
+    percentErrorDistance(i,2) = abs((pairedCoord(i,2)-pairedCoord(i,10))/pairedCoord(i,10))*100;
+    percentErrorDistance(i,3) = abs((pairedCoord(i,3)-pairedCoord(i,9))/pairedCoord(i,9))*100;
+    percentErrorDistance(i,4) = abs((pairedCoord(i,4)-pairedCoord(i,10))/pairedCoord(i,10))*100;
+    percentErrorDistance(i,5) = abs((pairedCoord(i,5)-pairedCoord(i,9))/pairedCoord(i,9))*100;
+    percentErrorDistance(i,6) = abs((pairedCoord(i,6)-pairedCoord(i,10))/pairedCoord(i,10))*100;
+    absoluteErrorDistance(i,1) =  abs((pairedCoord(i,1)-pairedCoord(i,9)));
+    absoluteErrorDistance(i,2) =  abs((pairedCoord(i,2)-pairedCoord(i,10)));
+    absoluteErrorDistance(i,3) =  abs((pairedCoord(i,3)-pairedCoord(i,9)));
+    absoluteErrorDistance(i,4) =  abs((pairedCoord(i,4)-pairedCoord(i,10)));
+    absoluteErrorDistance(i,5) =  abs((pairedCoord(i,5)-pairedCoord(i,9)));
+    absoluteErrorDistance(i,6) =  abs((pairedCoord(i,6)-pairedCoord(i,10)));
+end
+testVar = [percentErrorDistance(:,5:6) absoluteErrorDistance(:,5:6)];
 
 %% Calc what angle each point is theoretically looking at.
-testVar = [percentErrorDistance(:,5:6) absoluteErrorDistance(:,5:6)];
+% theoreticalAngle = [azCmd, altCmd, p1Az, p1Alt, p2Az, p2Alt, pavgAz,
+% pavgAlt]
+for i = 1:length(pairedCoord)
+    angleBackCalculated(i,1:2) = pairedCoord(i, 7:8);
+    angleBackCalculated(i,3) = atan2d(pairedCoord(i,1), dBoardMin_in);
+    angleBackCalculated(i,4) = atan2d(pairedCoord(i,2)*cosd(angleBackCalculated(i,3)), dBoardMin_in);
+    angleBackCalculated(i,5) = atan2d(pairedCoord(i,3), dBoardMin_in);
+    angleBackCalculated(i,6) = atan2d(pairedCoord(i,4)*cosd(angleBackCalculated(i,5)) ,dBoardMin_in);
+    angleBackCalculated(i,7) = atan2d(pairedCoord(i,5), dBoardMin_in);
+    angleBackCalculated(i,8) = atan2d(pairedCoord(i,6)*cosd(angleBackCalculated(i,7)), dBoardMin_in);
+
+end
+
+%% Calc Percent Percent Error of back calculated angle vs command angle
+for i = 1:length(angleBackCalculated)
+   percentErrorAngular(i,1) = abs((angleBackCalculated(i,3)-angleBackCalculated(i,1))/ angleBackCalculated(i,1))*100;
+   percentErrorAngular(i,2) = abs((angleBackCalculated(i,4)-angleBackCalculated(i,2))/ angleBackCalculated(i,2))*100;
+   percentErrorAngular(i,3) = abs((angleBackCalculated(i,5)-angleBackCalculated(i,1))/ angleBackCalculated(i,1))*100;
+   percentErrorAngular(i,4) = abs((angleBackCalculated(i,6)-angleBackCalculated(i,2))/ angleBackCalculated(i,2))*100;
+   percentErrorAngular(i,5) = abs((angleBackCalculated(i,7)-angleBackCalculated(i,1))/ angleBackCalculated(i,1))*100;
+   percentErrorAngular(i,6) = abs((angleBackCalculated(i,8)-angleBackCalculated(i,2))/ angleBackCalculated(i,2))*100;
+end
 % figure(); 
 % image(myPhoto); 
 % axis image; 
