@@ -1,0 +1,1 @@
+Section 5.2.1.2 need to do the calculations of theoretical angle based on reference angle vs commanded angle (for both 0az and 10az
