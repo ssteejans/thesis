@@ -58,6 +58,7 @@ Equations
     stepsPerSec = [in/s]*threadpitch[rot/in]*[steps/rot]
   3.3
     Will need equations showing how latitude, longitude, right ascension, declination, and time -> altitude, azimuth, and rotation.
+    http://aa.usno.navy.mil/faq/docs/Alt_Az.php
   4.2.1.3
     Screw torque calculations (from Shigleys)
     
