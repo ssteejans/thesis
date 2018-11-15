@@ -59,6 +59,7 @@ Equations
   3.3
     Will need equations showing how latitude, longitude, right ascension, declination, and time -> altitude, azimuth, and rotation.
     http://aa.usno.navy.mil/faq/docs/Alt_Az.php
+    http://spiff.rit.edu/classes/phys373/lectures/radec/radec.html
   4.2.1.3
     Screw torque calculations (from Shigleys)
     
