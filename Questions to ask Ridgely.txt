@@ -1,8 +1,4 @@
-2.1.3
-  Who actually came up with the idea for the mount? 
-  Definition of geometry of system.
-    What is the best way to do this? You say it needs to be done before digging into the theory. 
-    What do you mean by angles of intersect?
+
 4.2.2
   "this stuff looks as if it belongs more in a results section than the design part"
     I'm talking about the issues which the system as provided. I'm not really sure where to put this. It doesn't seem like results is right but neither is design?
