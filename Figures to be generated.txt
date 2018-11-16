@@ -16,29 +16,32 @@ Figures
       Telescope at home position with explanation of why it is not (0,0,0)
   4.1
     Drawings and photos of each part of the mechanical system. Drawings from Gudgel's solidworks
-      Linear actuator
+      Linear actuator (need to generate this)
       xxxG-A Rotator
       xxxA-T Rotator
       xxxTelescope Base
       xxxOriginal electronics (photo only)
+    4.2
+      Image of stepper motor assembly
+      
   5.1
-    Image of laser attachments to frame
+    xxxImage of laser attachments to frame
   5.2.1.1
     IMG_7861 of image rotation with the marked angles
     Table with data
   5.2.1.2
-    Photo of both tests
+    xxxPhoto of both tests
     Table with data.
   5.2.2
     Frame capture of laser at starting point and ending point with note of time in between
       for each of the 4 tests
     Table with data
   5.2.3.1
-    Photo with the repeatability dots for Altitude Repeatability
+    xxxPhoto with the repeatability dots for Altitude Repeatability
   5.2.3.2
-    Photos of each test 2A, 2B, 2C
+    xxxPhotos of each test 2A, 2B, 2C
   5.2.3.3
-    Photos of each point and the set up.
+    xxxPhotos of each point and the set up.
   5.2.4
     lots of photos...but I need to figure out what the hell to do with this section
     
