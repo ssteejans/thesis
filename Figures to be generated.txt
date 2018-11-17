@@ -15,7 +15,7 @@ Figures
       Actuators end positions
       Telescope at home position with explanation of why it is not (0,0,0)
   4.1
-    Drawings and photos of each part of the mechanical system. Drawings from Gudgel's solidworks
+    Drawings and photos of each part of the mechanical system. 
       Linear actuator (need to generate this)
       xxxG-A Rotator
       xxxA-T Rotator
@@ -27,8 +27,8 @@ Figures
   5.1
     xxxImage of laser attachments to frame
   5.2.1.1
-    IMG_7861 of image rotation with the marked angles
-    Table with data
+    xxxIMG_7861 of image rotation
+    xxxTable with data
   5.2.1.2
     xxxPhoto of both tests
     Table with data.
