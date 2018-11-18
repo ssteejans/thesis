@@ -16,7 +16,7 @@ Figures
       Telescope at home position with explanation of why it is not (0,0,0)
   4.1
     Drawings and photos of each part of the mechanical system. 
-      Linear actuator (need to generate this)
+      Original Linear actuator before modification
       xxxG-A Rotator
       xxxA-T Rotator
       xxxTelescope Base
