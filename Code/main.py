@@ -126,7 +126,7 @@ def testRepeatability(numloops=10):
     print('going to 30,10')
     time.sleep(100)
   input()
-def testAltGrid():
+def testGrid():
   alts = [.296705973, .34906585, .436332313, .523598776, .610865238]
   azs = [.174532925, .087266463, 0, -.087266463, -.174532925]
   for x in azs:
