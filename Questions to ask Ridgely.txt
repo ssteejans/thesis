@@ -3,7 +3,6 @@
   "this stuff looks as if it belongs more in a results section than the design part"
     I'm talking about the issues which the system as provided. I'm not really sure where to put this. It doesn't seem like results is right but neither is design?
 
+    
 4.4 - I'd appreciate input on this section
   
-Torque wrench idea
-How to add micropython to nucleo and what shoe of brian does

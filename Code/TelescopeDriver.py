@@ -51,12 +51,12 @@ class Telescope(object):
         self.alt_cur = self.phi_alt
         self.az_cur = self.phi_az
         self.rot_cur = self.phi_rot
-    def slew(self, omega_alt, omega_az, omega_rot, tstep=1):
+    def goVelocity(self, omega_alt, omega_az, omega_rot, tstep=1):
         '''
         Move the telescope at specified radians/sec
-        @param omega_az Angular rate of slew in azimuth (Rad/sec)
-        @param omega_alt Angular rate of slew in altitude (Rad/sec)
-        @param omega_rot Angular rate of slew in image rotation (Rad/sec)
+        @param omega_az Angular rate of azimuth (Rad/sec)
+        @param omega_alt Angular rate of altitude (Rad/sec)
+        @param omega_rot Angular rate of image rotation (Rad/sec)
         @param tstep time step for calculation of velocity. Default 1 sec
         '''
         Walt = omega_alt
