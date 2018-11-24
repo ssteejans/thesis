@@ -1,8 +1,9 @@
+One of the big reasons I used the images I did is they were available on Wikimedia commons with allowances for the use of the images.
+https://commons.wikimedia.org/wiki/Commons:Reusing_content_outside_Wikimedia
 
-4.2.2
-  "this stuff looks as if it belongs more in a results section than the design part"
-    I'm talking about the issues which the system as provided. I'm not really sure where to put this. It doesn't seem like results is right but neither is design?
-
-    
-4.4 - I'd appreciate input on this section
-  
+https://commons.wikimedia.org/wiki/File:Dobson-mount.jpg
+https://commons.wikimedia.org/wiki/File:Baker-Nunn_camera_001.JPG
+https://commons.wikimedia.org/wiki/File:Simulator-flight-compartment.jpeg
+https://commons.wikimedia.org/wiki/File:Zeiss_di_Merate_-_pilastro_sud.jpg
+https://commons.wikimedia.org/wiki/File:Maksutov-Cassegrain_Intes_M703_mounted.jpg
+https://commons.wikimedia.org/w/index.php?curid=17727911
