@@ -2,10 +2,10 @@
 Figure 14: Make '+' signs bigger
 3.4 Home position setting: connect to later section on design guidelines (which also needs writing)
 3.6.1 Time derivative of a transformation matrix need to put the math here which shows that we need the instantaneous positions
-3.7 theory of pointing a telescope -- the way we take latitude, longitude, right ascension, declination, and time and turn that into altitude, azimuth, and rotation.  
 4.2 design guidelines section needs lots of work
   do simple fbd on each spot that needs bearings
   biggest part of the remaining work
+  
 4.3 Electrical Design
   whole section needs love. not even sure where to go with it
 5.2.1.2 Need to generate plot of commanded angle vs cmd-actual (error at each commanded point)
