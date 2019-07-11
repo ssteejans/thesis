@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Apr 16 10:01:18 2017
+## @file BitUtilities.py
+#  Contains function to take the twos complement
+#  @author: mecha31
 
-@author: mecha31
-"""
-
+## @fn GetTwosComplement(value, bits)
+#  Takes the twos complement
 def GetTwosComplement(value, bits):
     if (value & (1<<(bits-1))) != 0:
         value = value - (1<<bits)
