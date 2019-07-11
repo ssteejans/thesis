@@ -53,7 +53,8 @@ SYNC_SEL = const(0x10)
 STALL_TH = const(13)
 
 
-## This class implements a driver for the dual L6470 stepping motor driver 
+## @class Dual6470
+#  This class implements a driver for the dual L6470 stepping motor driver 
 #  chips on a Nucleo IHM02A1 board. The two driver chips are connected in 
 #  SPI daisy-chain mode, which makes communication a bit convoluted. 
 #
@@ -62,21 +63,17 @@ STALL_TH = const(13)
 #  bridge SB12 must be connected instead. This is because the SCK signal
 #  for which the board is shipped is not the one which MicroPython uses
 #  by default.
+#  @param spi_object A SPI object already initialized. used to talk to the 
+#      driver chips, either 1 or 2 for most Nucleos
+#  @param cs_pin The pin which is connected to the driver chips' SPI
+#      chip select (or 'slave select') inputs, in a pyb.Pin object 
+#  @param stby_rst_pin The pin which is connected to the driver 
+#      chips' STBY/RST inputs, in a pyb.Pin object
 
 class Dual6470:
-
-    ## Initialize the Dual L6470 driver. The modes of the @c CS and
-    #  @c STBY/RST pins are set and the SPI port is set up correctly. 
-    #  @param spi_object A SPI object already initialized. used to talk to the 
-    #      driver chips, either 1 or 2 for most Nucleos
-    #  @param cs_pin The pin which is connected to the driver chips' SPI
-    #      chip select (or 'slave select') inputs, in a pyb.Pin object 
-    #  @param stby_rst_pin The pin which is connected to the driver 
-    #      chips' STBY/RST inputs, in a pyb.Pin object
-    
     # === DICTIONARIES ===
-    """ Dictionary of available registers and their addresses.
-    """
+    
+    ## Dictionary of user available registers and their addresses.
     REGISTER_DICT = {} #        ADDR | LEN |  DESCRIPTION     | xRESET | Write
     REGISTER_DICT['ABS_POS'   ]=[0x01, 22] # current pos      | 000000 |   S
     REGISTER_DICT['EL_POS'    ]=[0x02,  9] # Electrical pos   |    000 |   S
@@ -108,10 +105,10 @@ class Dual6470:
     # Write: X = unreadable, W = Writable (always), 
     #        S = Writable (when stopped), H = Writable (when Hi-Z)
     
-    """ Dictionary for the STATUS register. Contains all error flags,
-            as well as basic motor state information.
-    """
-    STATUS_DICT = {} # [    NAME    | OK/DEFAULT VALUE ]
+    ## Dictionary for the STATUS register. 
+    # Contains all error flags, as well as basic motor state information.
+    
+    STATUS_DICT = {}                    # [    NAME    | OK/DEFAULT VALUE ]
     STATUS_DICT[14] = ['STEP_LOSS_B',1] # stall detection on bridge B
     STATUS_DICT[13] = ['STEP_LOSS_A',1] # stall detection on bridge A
     STATUS_DICT[12] = ['OVERCURRENT',1] # OCD, overcurrent detection
@@ -131,11 +128,10 @@ class Dual6470:
     STATUS_DICT[ 1] = ['BUSY'       ,1] # low during movement commands
     STATUS_DICT[ 0] = ['Hi-Z'       ,1] # 1=hi-Z, 0=motor active
     
-    """ Dictionary for Application Commands. See L6470 Programming manual Pg 56
-            for information on usage. These commands must be OR'd with the
-            values for use.
-    
-    """
+    ## Dictionary for Application Commands. 
+    # See L6470 Programming manual Pg 56 for information on usage. 
+    # These commands must be OR'd with the values for use.
+
     COMMAND_DICT = {} # [    NAME    | Command Hex Code |  Action ]
     COMMAND_DICT['SetParam'   ] = 0x00 # Writes VALUE in PARAM register 
     COMMAND_DICT['GetParam'   ] = 0x20 # Returns the stored value in PARAM register
@@ -156,8 +152,8 @@ class Dual6470:
     COMMAND_DICT['HardHiZ'    ] = 0xA8 # 
     COMMAND_DICT['GetStatus'  ] = 0xD0 # 
     
-    
-
+    ## Initialize the Dual L6470 driver. The modes of the @c CS and
+    #  @c STBY/RST pins are set and the SPI port is set up correctly. 
     def __init__ (self, spi_object, cs_pin, stby_rst_pin):
 
         ## The CPU pin connected to the Chip Select (AKA 'Slave Select') pin
@@ -268,6 +264,7 @@ class Dual6470:
         #print("in read bytes motor 1 is " + str(bin(data_1)))
         #print("in read bytes motor 2 is " + str(bin(data_2)))
         return ([data_1, data_2])
+    
     ## Send one byte to each L6470 as a command and receive two bytes
     #  from each driver in response. 
     #  @param command_byte The byte which is sent to both L6470's 
@@ -284,6 +281,7 @@ class Dual6470:
 
         
         return([data_1, data_2])
+    
     ## Set a parameter to both L6740 drivers, in a register which needs 
     #  two bytes of data.0
     #  @param reg_name (string) The register to be set
@@ -369,10 +367,11 @@ class Dual6470:
 
     '''-------------------------------------------------------'''  
     
-    ## Tell the motor to run at the given speed. The speed may be 
+    ## @fn run
+    #  Tell the motor to run at the given speed. The speed may be 
     #  positive, causing the motor to run in direction 0, or negative,
     #  causing the motor to run in direction 1. 
-    #  @param motor Which motor to move, either 1 or 2
+    #  @param motor The motor to move, either 1 or 2
     #  @param steps_per_sec The number of steps per second at which to
     #      go, up to the maximum allowable set in @c MAX_SPEED
 
@@ -395,15 +394,20 @@ class Dual6470:
                             steps_per_sec & 0x000FFFFF)
     
     '''-------------------------------------------------------'''
-    
+    ## @fn StepClock
+    #  Switch the motor to StepClock mode.
+    #  In StepClock mode the motor moves in response to the rising edge of a signal applied to the STCK pin.
+    #
+    #  @b NOT @b IMPLEMENTED
+    #  @param direc Direction in which the motor should move on rising edge
     def StepClock(self, direc = None):
-        '''Needs Writing'''
+      ''' '''
 
     '''-------------------------------------------------------'''
-
-    ## Tell motor driver @c motor to move @c num_steps in the direction
+    ## @fn Move
+    #  Tell motor driver @c motor to move @c num_steps in the direction
     #  @c direction. 
-    #  @param motor Which motor to move, either 1 or 2
+    #  @param motor The motor to move, either 1 or 2
     #  @param steps How many steps to move, in a 20 bit number 
     #  @param direc The direction in which to move, either 0 for one
     #      way or nonzero for the other; if unspecified, the sign of the
@@ -424,14 +428,16 @@ class Dual6470:
 
         # Call the _cmd_3b() method to do most of the work
         self._cmd_3b (motor, self.COMMAND_DICT['Move'] | direc, steps & 0x003FFFFF)
+        
 
 
     '''-------------------------------------------------------'''
 
 
-    ## This command asks the specified motor to move to the specified 
+    ## @fn GoTo
+    #  This command asks the specified motor to move to the specified 
     #  position. 
-    #  @param motor Which motor to move, either 1 or 2
+    #  @param motor The motor to move, either 1 or 2
     #  @param pos_steps The position to which to move, in absolute steps
 
     def GoTo (self, motor, pos_steps):
@@ -441,34 +447,45 @@ class Dual6470:
 
 
     '''-------------------------------------------------------'''
-
+    ## @fn GoTo_DIR
+    #  @b NOT @b IMPLEMENTED
     def GoTo_DIR(self, motor, pos_steps, direc):
-        '''Needs Writing'''
+        ''' '''
         
     '''-------------------------------------------------------'''
-
+    ## @fn GoUntil
+    #  @b NOT @b IMPLEMENTED
     def GoUntil (self, motor, action, steps_per_sec, direction):
-        '''Needs Writing'''
-
+        ''' '''
+        
 
     '''-------------------------------------------------------'''
-    
+    ## @fn ReleaseSW
+    #  @b NOT @b IMPLEMENTED
     def ReleaseSW(self, motor, action, direc):
-        '''Needs Writing'''
+        ''' '''
+        
         
     '''-------------------------------------------------------'''
-    
+    ## @fn GoHome
+    #  @b NOT @b IMPLEMENTED
     def GoHome(self, motor):
-        '''Needs Writing'''
+        ''' '''
+        
+        
         
     '''-------------------------------------------------------'''
-    
+    ## @fn GoMark
+    #  @b NOT @b IMPLEMENTED
     def GoMark(self, motor):
-        '''Needs Writing'''
+        ''' '''
+        
+        
         
     '''-------------------------------------------------------'''
 
-    ## This command sets the given motor driver's absolute position register
+    ## @fn ResetPos
+    #  This command sets the given motor driver's absolute position register
     #  to zero.
     #  @param motor The motor whose position is to be zeroed, either 1 or 2
 
@@ -476,81 +493,100 @@ class Dual6470:
     def ResetPos (self, motor):
 
         self._cmd_1b (motor, self.COMMAND_DICT['ResetPos'])
+        
 
     '''-------------------------------------------------------'''
-    
+    ## @fn ResetDevice
+    #  @b NOT @b IMPLEMENTED
     def ResetDevice(self, motor):
-        '''Needs Writing'''
+        ''' '''
+        
         
     '''-------------------------------------------------------'''
 
-    ## Tell a motor driver to decelerate its motor and stop wherever it ends
+    ## @fn softStop
+    #  Tell a motor driver to decelerate its motor and stop wherever it ends
     #  up after the deceleration.
-    #  @param motor Which motor is to halt, 1 or 2
+    #  @param motor The motor to halt, 1 or 2
 
     def softStop (self, motor):
 
         self._cmd_1b (motor, self.COMMAND_DICT['SoftStop'])
+        
 
     '''-------------------------------------------------------'''
 
-    ## Tell the specified motor to stop immediately, not even doing the usual
-    #  smooth deceleration. This command should only be used when the compost
-    #  is really hitting the fan because it asks for nearly infinite 
-    #  acceleration of the motor, and this will probably cause the motor to
+    ## @fn HardStop
+    #  Tell the specified motor to stop immediately, not even doing the usual
+    #  smooth deceleration. This command asks for nearly infinite 
+    #  acceleration of the motor, and will probably cause the motor to
     #  miss some steps and have an inaccurate position count. 
-    #  @param motor Which motor is to halt, 1 or 2
+    #  @param motor The motor to halt, 1 or 2
 
     def HardStop (self, motor):
 
         self._cmd_1b (motor, self.COMMAND_DICT['HardStop'])
+        
 
     '''-------------------------------------------------------'''
     
-    ## Tell the specified motor to decelerate smoothly from its motion, then
+    ## @fn SoftHiZ
+    #  Tell the specified motor to decelerate smoothly from its motion, then
     #  put the power bridges in high-impedance mode, turning off power to the
     #  motor. 
-    #  @param motor Which motor is to be turned off, 1 or 2
+    #  @param motor The motor to be turned off, 1 or 2
 
     def SoftHiZ (self, motor):
 
         self._cmd_1b (motor, self.COMMAND_DICT['SoftHiZ'])
+        
 
     '''-------------------------------------------------------'''
     
-    ## Tell the specified motor to stop and go into high-impedance mode (no
+    ## @fn HardHiZ
+    #  Tell the specified motor to stop and go into high-impedance mode (no
     #  current is applied to the motor coils) immediately, not even doing the 
-    #  usual smooth deceleration. This command should only be used when the 
-    #  compost is really hitting the fan because the motor is put into a
+    #  usual smooth deceleration. This command puts the motor into a
     #  freewheeling mode with no control of position except for the small 
-    #  holding torque from the magnets in a PM hybrid stepper, and this will 
+    #  holding torque from the magnets in a PM hybrid stepper. This will 
     #  probably cause the motor to miss some steps and have an inaccurate 
     #  position count. 
-    #  @param motor Which motor is to be turned off, 1 or 2
+    #  @param motor The motor to be turned off, 1 or 2
 
     def HardHiZ (self, motor):
 
         self._cmd_1b (motor, self.COMMAND_DICT['HardHiZ'])
+        
 
     '''-------------------------------------------------------'''
     
+    ## @fn GetStatus
+    #  Gets the value of the STATUS register for the specified @c motor.
+    #  Resets STATUS register warning flags.
+    #  Exits the system from error state.
+    #  Does not reset HiZ.
+    #  
+    #  @b WARNING: resets warning flags and error state for both steppers
+    #  attached to the L6470 Nucleo.
+    #  @param motor The motor whose status register should be read, 1 or 2
+    #  @param verbose Print the status register results if TRUE
     def GetStatus (self, motor, verbose=0):
         status = self._get_params(self.COMMAND_DICT['GetStatus'], 2)
         if verbose:
             self.Print_Status(motor, status)
         return status
+        
     '''-------------------------------------------------------'''
+#   -----------------Secondary Functions-------------------
     
-    ## Get the positions stored in the drivers for the selected motor. Each
+    ## @fn getPositions
+    #  Get the positions stored in the drivers for the selected motor. Each
     #  driver stores its motor's position in a 22-bit register. If only
     #  one position is needed, it's efficient to get both because the
     #  drivers are daisy-chained on the SPI bus, so we have to send two
     #  commands and read a bunch of bytes of data anyway. 
+    #  @param motor The motor whose position should be read, 1 or 2
     #  @return The current positions of the selected motor
-    
-#   -----------------Secondary Functions-------------------
-
-    '''-------------------------------------------------------'''
     
     def getPositions (self, motor):
 
@@ -576,7 +612,13 @@ class Dual6470:
         else:
             data = data_2
         return (BitUtilities.GetTwosComplement(data, 22))
+        
     '''-------------------------------------------------------'''
+    ## @fn isStalled
+    #  Checks if the specified motor is stalled.
+    #  Did not work with all motors. Should be tested heavily before use.
+    #  @param motor The motor to check for stall
+    #  @param homing If TRUE, reset position when stalled
     def isStalled(self, motor, homing=False):
         status = self.GetStatus(1)
         if ((status[motor-1]&(1<<13) == 0) or (status[motor-1]&(1<<14) == 0)):
@@ -585,14 +627,15 @@ class Dual6470:
             return True
         else:
             return False
+            
         
     '''-------------------------------------------------------'''
+    ## @fn Print_Status
+    #  Formatted printing of status codes for the driver.
+    #  @param motor The motor which the status is representing.
+    #  @param status The code returned by a GetStatus call.
     def Print_Status(self, motor, status):
-        """ Formatted printing of status codes for the driver.
 
-            @arg @c motor  (int): the motor which the status is representing.
-            @arg @c status (int): the code returned by a GetStatus call.
-        """
         # check error flags
         print ('Driver ', str(motor), ' Status: ') #, bin(status))
         print(status)

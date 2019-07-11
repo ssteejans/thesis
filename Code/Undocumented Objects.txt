@@ -1,0 +1,110 @@
+PS C:\Users\sam_artho-bentz\Documents\Thesis\Code> doxygen Doxyfile
+warning: ignoring unsupported tag `CLANG_COMPILATION_DATABASE_PATH' at line 1048, file Doxyfile
+
+Reading /ActuatorDriver.py...
+Reading /BitUtilities.py...
+Reading /boot.py...
+Reading /l6470nucleo.py...
+Reading /main.py...
+Reading /TelescopeDriver.py...
+
+/ActuatorDriver.py:17: Compound ActuatorDriver::Actuator 
+
+/TelescopeDriver.py:204:  rootsumsquare(a, b) (function) of namespace TelescopeDriver 
+
+/TelescopeDriver.py:208:  matmul(a, b) (function) of namespace TelescopeDriver 
+
+/TelescopeDriver.py:17:  NUMBER_OF_MICROSTEPS (variable) of namespace TelescopeDriver 
+
+/ActuatorDriver.py:19:  __init__(self, stepPerLength, motorController, motorNumber) (function) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:33:  commandLength(self, length) (function) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:45:  getCurrentLength(self) (function) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:49:  findHome(self) (function) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:52:  isHome(self) (function) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:60:  resetPosition(self) (function) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:62:  stop(self) (function) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:20:  stepPerLength (variable) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:21:  controller (variable) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:22:  motorNumber (variable) of class ActuatorDriver::Actuator 
+
+/ActuatorDriver.py:23:  currentLength (variable) of class ActuatorDriver::Actuator 
+
+
+
+
+/l6470nucleo.py:163:  __init__(self, spi_object, cs_pin, stby_rst_pin) (function) of class l6470nucleo::Dual6470 
+
+/l6470nucleo.py:539:  GetStatus(self, motor, verbose=0) (function) of class l6470nucleo::Dual6470 
+
+/l6470nucleo.py:582:  isStalled(self, motor, homing=False) (function) of class l6470nucleo::Dual6470 
+
+/l6470nucleo.py:116:  STATUS_DICT (variable) of class l6470nucleo::Dual6470 
+
+/l6470nucleo.py:141:  COMMAND_DICT (variable) of class l6470nucleo::Dual6470 
+
+
+
+
+
+
+
+
+Generating docs for compound TelescopeDriver::Telescope...
+
+
+/TelescopeDriver.py:23:  __init__(self, actuatorOne, actuatorTwo, actuatorThree) (function) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:112:  goToAngles(self, O_alt, O_az, O_rot, move=False) (function) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:24:  actuatorOne (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:25:  actuatorTwo (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:26:  actuatorThree (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:29:  P0_b (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:30:  P1_b (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:31:  P2_b (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:32:  P3_b (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:33:  OA_b (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:36:  P1_h (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:37:  P2_h (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:38:  P3_h (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:39:  OA_h (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:42:  L_p1min (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:43:  L_p2min (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:44:  L_p3min (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:45:  L_p1p2 (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:48:  phi_az (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:49:  phi_alt (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:50:  phi_rot (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:54:  alt_cur (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:55:  az_cur (variable) of class TelescopeDriver::Telescope 
+
+/TelescopeDriver.py:56:  rot_cur (variable) of class TelescopeDriver::Telescope 

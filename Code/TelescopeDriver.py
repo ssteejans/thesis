@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
-@file TelescopeDriver.py
-    This file contains a driver for a Three Parallel actuator telescope
-    
-    @author Samuel S. Artho-Bentz
-"""
+#
+## @file TelescopeDriver.py
+#  This file contains a driver for a Three Parallel actuator telescope. 
+#    
+#
+#
+#  @author Samuel Steejans Artho-Bentz
 import math
 import time
 import pyb
