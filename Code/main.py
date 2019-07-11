@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
-Sam Artho-Benz
-
-
-Stepper Motor Test File
-"""
+#
+## @file main.py
+#  Control file for a Three Degree of Freedom Parallel Actuator Telescope Mount
+#    
+#
+#
+#  @author Samuel Steejans Artho-Bentz
 import pyb
 import l6470nucleo
 import time
@@ -13,57 +14,84 @@ import TelescopeDriver
 
 
 
-# i2c = pyb.I2C(1, pyb.I2C.MASTER)
-# s = bno055.BNO055(i2c, mode=bno055.IMU_MODE)
-# print(s.temperature())
-# print(s.euler())
 
 ## Stepper Resolution [steps/rev]
 STEPPER_RESOLUTION = const (200)
+
+## Number of microsteps
+#  This must match @c NUMBER_OF_MICROSTEPS in @c TelescopeDriver.py and 
+#  @c STEP_SEL in @c l6470nucleo.py 
 MICROSTEPS = 4
+
 ## Leadscrew Resolution [rev/in]
 SCREW_RESOLUTION = const(16)
 
-## Set up pins
+# Set up pins
+
+## SPI one standby/reset pin
 stby_rst_pin1 = pyb.Pin.cpu.B5
+## SPI two standyby/reset pin
 stby_rst_pin2 = pyb.Pin.cpu.B3
+## SPI one chip select pin
 nCS1 = pyb.Pin.cpu.A4
+## SPI two chip select pin
 nCS2 = pyb.Pin.cpu.A10
+## SPI number
 spi_number = 1
 print('pins initialized')
 
-## create spi object for motor drivers
+## spi object for motor drivers
 spi_object = pyb.SPI (spi_number, mode=pyb.SPI.MASTER, 
                            baudrate=2000000, polarity=1, phase=1, 
                            bits=8, firstbit=pyb.SPI.MSB)
                            
+## l6470nucleo board object
 Driver1 = l6470nucleo.Dual6470(spi_object,nCS1, stby_rst_pin1)
+## l6470nucleo board object
 Driver2 = l6470nucleo.Dual6470(spi_object,nCS2, stby_rst_pin2)
 
 Driver1._get_params(0xD0,2)
 
-## Define the 3 actuators
+# Define the 3 actuators
+## Right actuator when viewed from the origin looking along the X axis
 actuatorOne = ActuatorDriver.Actuator(STEPPER_RESOLUTION*SCREW_RESOLUTION*MICROSTEPS, Driver1, 1)
+## Left actuator when viewed from the origin looking along the X axis
 actuatorTwo = ActuatorDriver.Actuator(STEPPER_RESOLUTION*SCREW_RESOLUTION*MICROSTEPS, Driver1, 2)
+## Rear, horizontal actuator
 actuatorThree = ActuatorDriver.Actuator(STEPPER_RESOLUTION*SCREW_RESOLUTION*MICROSTEPS, Driver2, 1)
 
 ## Define the telescope based on the actuators above
 Telescope = TelescopeDriver.Telescope(actuatorOne, actuatorTwo, actuatorThree)
 
 
-## Create some basic utility functions
+# Create some basic utility functions
+
+## @fn estop
+#  commands all motors to halt immediately.
 def estop():
    Driver1.HardHiZ(1)
    Driver1.HardHiZ(2)
    Driver2.HardHiZ(1)
+
+## @fn Go(speed)
+#  commands all motors to go at the specified speed.
+#  directly communicates with the stepper motors.
+#  @param speed steps/second
 def Go(speed):
    Driver1.run(1, speed)
    Driver1.run(2, speed)
    Driver2.run(1, speed)
+
+## @fn getPos
+#  Queries the actuators for their current lengths
 def getPos():
    print(['Actuator One is at: ' + str(actuatorOne.getCurrentLength()+Telescope.L_p1min)])
    print(['Actuator Two is at: ' + str(actuatorTwo.getCurrentLength()+Telescope.L_p2min)])
    print(['Actuator Three is at: ' + str(actuatorThree.getCurrentLength()+Telescope.L_p3min)])
+
+## @fn getStatus(motornumber)
+#  Requests the status of the specified motor
+#  @param motornumber The motor associated with the desired actuator: 1, 2, or 3
 def getStatus(motornumber):
    if motornumber ==1:
        actuatorOne.controller.GetStatus(1, 1)
@@ -71,8 +99,14 @@ def getStatus(motornumber):
        actuatorTwo.controller.GetStatus(2, 1)
    elif motornumber ==3:
        actuatorThree.controller.GetStatus(1, 1)
+
+## @fn testRepeatability(numloops)
+#  Runs through a series of points @c numloops times.
+#  Waits for the user to hit a key before moving on to the next point.
+#  Used for testing.
+#  @param numloops Desired number of times the points should be gone through.
 def testRepeatability(numloops=10):
-  ## Run through a series of points 20 times
+
   pt1 = [.349066, 0, 0]
   pt2 = [.523599, -0.17453, 0]
   pt3 = [0.698132, -0.34907, 0]
@@ -126,6 +160,9 @@ def testRepeatability(numloops=10):
     print('going to 30,10')
     time.sleep(100)
   input()
+## @fn testGrid
+#  Moves to a series of points and waits for user input at each one.
+#  Used for testing.
 def testGrid():
   alts = [.296705973, .34906585, .436332313, .523598776, .610865238]
   azs = [.174532925, .087266463, 0, -.087266463, -.174532925]

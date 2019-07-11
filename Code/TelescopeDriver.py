@@ -10,56 +10,100 @@ import math
 import time
 import pyb
 
-# Must define the number of microsteps to correct for oddity
-# of stepper driver
+## @var NUMBER_OF_MICROSTEPS
+#  Must define the number of microsteps to correct for oddity of stepper driver
 NUMBER_OF_MICROSTEPS = 4
+
+## @class Telescope
+#  This class creates a telescope object controlled by 3 parallel actuators. 
+#  Each actuator is driven by a stepper motor with an L6470 stepper driver.
+#  @param actuatorOne Right actuator when viewed from the origin looking along the X axis
+#  @param actuatorTwo Left actuator when viewed from the origin looking along the X axis
+#  @param actuatorThree Rear, horizontal actuator
 class Telescope(object):
-    '''This class creates a telescope object controlled by 3 parallel actuators. 
-    Each actuator is driven by a stepper motor with an L6470 stepper driver.
-    '''
+    
+    ## Initialize the Telescope object
     
     def __init__ (self, actuatorOne, actuatorTwo, actuatorThree):
+    
+        ## actuatorOne: Right actuator when viewed from the origin looking along the X axis
         self.actuatorOne = actuatorOne
+        ## actuatorTwo: Left actuator when viewed from the origin looking along the X axis
         self.actuatorTwo = actuatorTwo
+        ## actuatorThree: Rear, horizontal actuator
         self.actuatorThree = actuatorThree
-        # Define Base Positions
-        # All subjective directions (left/right) based on an observer operating the telescope
-        self.P0_b = [[0],[0],[0]]    # Origin with respect to the base
-        self.P1_b = [[-12],[-3.25],[16]]    # Right Vertical with respect to the base
-        self.P2_b = [[12],[-3.25],[16]]    # Left Vertical with respect to the base
-        self.P3_b = [[-12],[-3.25],[5]]    # Horizontal with respect to the base
-        self.OA_b = self.P0_b;            # Optical Axis base                 
+                
+        
+        ## Origin with respect to the base
+        self.P0_b = [[0],[0],[0]]    
+        
+        ## Fixed end of actuator one
+        self.P1_b = [[-12],[-3.25],[16]]    
+        
+        ## Fixed end of actuator two
+        self.P2_b = [[12],[-3.25],[16]]    
+        
+        ## Fixed end of actuator three
+        self.P3_b = [[-12],[-3.25],[5]]    
+        
+        ## Optical Axis base
+        self.OA_b = self.P0_b;                         
 
-        # Define Home Positions
+
+        ## Position of the moving end of actuator one in the home position
         self.P1_h = [[-13.55],[8.55],[10.64]]
-        self.P2_h = [[6.85],[8.87],[15.63]]   
-        self.P3_h = [[-1.32],[-2.44],[5.57]]  
+        
+        ## Position of the moving end of actuator two in the home position
+        self.P2_h = [[6.85],[8.87],[15.63]]
+
+        ## Position of the moving end of actuator three in the home position        
+        self.P3_h = [[-1.32],[-2.44],[5.57]]
+
+        ## Position of the moving end of optical axis in the home position        
         self.OA_h = [[-4.0],[3.75],[16.25]]
         
         # Calculate Minimum Lengths
+        ## Minimum length of actuator one
         self.L_p1min = rootsumsquare(self.P1_h, self.P1_b)
+        
+        ## Minimum length of actuator two
         self.L_p2min = rootsumsquare(self.P2_h, self.P2_b)
+        
+        ## Minimum length of actuator three
         self.L_p3min = rootsumsquare(self.P3_h, self.P3_b)
+        
+        ## Fixed distance from the moving end of actuator one to actuator two
         self.L_p1p2  = rootsumsquare(self.P1_h, self.P2_h)
         
         #Calculate Correction Angles \phi to Rotate from home position to alt = 0, az = 0 
+        
+        ## The azimuth correction angle required to rotate from the home position to (0,0,0)
         self.phi_az = -math.atan2(self.OA_h[0][0], self.OA_h[2][0]);
+        ## The altitude correction angle required to rotate from the home position to (0,0,0)
         self.phi_alt = math.atan2(self.OA_h[1][0], self.OA_h[2][0]);
+        ## The image rotation correction angle required to rotate from the home position to (0,0,0)
         self.phi_rot = math.atan2(self.P1_h[1][0]-self.P2_h[1][0], self.L_p1p2)
         
         # Define current angles
-        print('Please do not interrupt any movement commands. Allow them to finish completely')
+        
+        
+        ## The current altitude of the system
         self.alt_cur = self.phi_alt
+        ## The current azimuth of the system
         self.az_cur = self.phi_az
+        ## The current image rotation of the system
         self.rot_cur = self.phi_rot
-    def goVelocity(self, omega_alt, omega_az, omega_rot, tstep=1):
-        '''
-        Move the telescope at specified radians/sec
-        @param omega_az Angular rate of azimuth (Rad/sec)
-        @param omega_alt Angular rate of altitude (Rad/sec)
-        @param omega_rot Angular rate of image rotation (Rad/sec)
-        @param tstep time step for calculation of velocity. Default 1 sec
-        '''
+        
+        # Print warning message
+        print('Please do not interrupt any movement commands. Allow them to finish completely')
+    
+    ## @fn goVelocityAngular
+    #  Move the telescope at specified radians/sec.
+    #  @param omega_az Angular rate of azimuth (Rad/sec)
+    #  @param omega_alt Angular rate of altitude (Rad/sec)
+    #  @param omega_rot Angular rate of image rotation (Rad/sec)
+    #  @param tstep time step for calculation of velocity. Default 1 sec
+    def goVelocityAngular(self, omega_alt, omega_az, omega_rot, tstep=1):
         Walt = omega_alt
         Waz = omega_az
         Wrot = omega_rot
@@ -99,15 +143,14 @@ class Telescope(object):
         self.rot_cur = rot_new
         return ([self.alt_cur, self.az_cur, self.rot_cur])
 
+    ## @fn goToAngles
+    #  Function which calculates the correct lengths of the three linear actuators in order to
+    #  achieve the specified angles (in degrees) then can send the scope to that location.
+    #  @param O_alt Desired Altitude Angle in radians
+    #  @param O_az Desired Azimuth Angle in radians
+    #  @param O_rot Desired Rotation Angle in radians
+    #  @param move Boolean value which determines if the function only calculates the required lengths or also commands motion
     def goToAngles(self, O_alt, O_az, O_rot, move=False):	
-        '''
-        Function which calculates the correct lengths of the three linear actuators in order to
-        achieve the specified angles (in degrees) then sends the scope to that location
-        @param O_alt Desired Altitude Angle in radians
-        @param O_az Desired Azimuth Angle in radians
-        @param O_rot Desired Rotation Angle in radians
-        @param move Boolean value which determines if the function only calculates the required lengths or also commands motion
-        '''
 
         # Assemble Translation Matrix from Base (b) reference frame to Telescope (s)
         # Rotations Azimuth -> Altitude -> Image Rotations
@@ -140,6 +183,9 @@ class Telescope(object):
         return(L_p1, L_p2, L_p3) 
     
     
+    ## @fn findHome
+    #  Causes each actuator to shorten until it stalls then stops
+    #  @b WARNING: Does not function!
     def findHome(self):
         '''
         Non-functioning function which is designed to implement automatic home checking
@@ -167,58 +213,66 @@ class Telescope(object):
 
         print("There's no place like home")
 
+    ## @fn resetPositions
+    #  Zeros the absolute position of each actuator.
+    #  Used for defining the home position.
     def resetPositions(self):
-        '''
-        This function zeros the absolute position of each actuator, which redefines the current position as home
-        '''
+
         self.actuatorOne.resetPosition()
         self.actuatorTwo.resetPosition()
         self.actuatorThree.resetPosition()
         
+    ## @fn goToLengths
+    #  Commands each actuator to a specified length
+    #  @param lengthOne Desired length for actuator one
+    #  @param lengthTwo Desired length for actuator two
+    #  @param lengthThree Desired length for actuator three
     def goToLengths(self, lengthOne, lengthTwo, lengthThree):
-        '''
-        This function commands each actuator to a specific length
-        @param lengthOne Desired length for actuator one
-        @param lengthTwo Desired length for actuator two
-        @param lengthThree Desired length for actuator three
-        '''
+
         self.actuatorOne.commandLength(lengthOne)
         self.actuatorTwo.commandLength(lengthTwo)
         self.actuatorThree.commandLength(lengthThree)
         
+    ## @fn goVelocity
+    #  Commands each actuator to move at a specified velocity
+    #  @param velOne Velocity in length/sec
+    #  @param velTwo Velocity in length/sec
+    #  @param velThree Velocity in length/sec
     def goVelocity(self, velOne, velTwo, velThree):
-        ''' 
-            This function commands each actuator to move at a specific velocity
-            @param velOne Velocity in length/sec
-            @param velTwo Velocity in length/sec
-            @param velThree Velocity in length/sec
-        '''
+
         self.actuatorOne.commandVelocity(velOne)
         self.actuatorTwo.commandVelocity(velTwo)
         self.actuatorThree.commandVelocity(velThree)
         
         
-
+## Calculates the root sum square of two vectors of size 3
+#  @param a vector of size 3
+#  @param b vector of size 3
+#  @return The root-sum-of-squares of the difference of @c a and @c b
 def rootsumsquare(a, b):
     rss = pow(pow((a[0][0]-b[0][0]),2)+pow((a[1][0]-b[1][0]),2)+pow((a[2][0]-b[2][0]),2),.5)
     return rss
     
+## Multiplies two matrices together @c a * @c b
+#  @param a [m x n] matrix
+#  @param b [n x o] matrix
 def matmul(a, b):
     zip_b = zip(*b)
     zip_b = list(zip_b)
     return [[sum(ele_a*ele_b for ele_a, ele_b in zip(row_a, col_b)) for col_b in zip_b] for row_a in a]
 
+## Rotation matrix about the x axis
 def RotX(rads):
-    '''Rotation Matrix about X'''
     return [[1,0,0],[0,math.cos(rads),-math.sin(rads)],[0,math.sin(rads),math.cos(rads)]]
 
+## Rotation matrix about the y axis
 def RotY(rads):
-    '''Rotation Matrix about Y'''
     return [[math.cos(rads),0,math.sin(rads)],[0,1,0],[-math.sin(rads),0,math.cos(rads)]] 
 
+## Rotation matrix about the z axis
 def RotZ(rads):
-    '''Rotation Matrix about Z'''
     return [[math.cos(rads),-math.sin(rads),0],[math.sin(rads),math.cos(rads),0],[0,0,1]]
+
 """
 def getVelocity(Theta_x, Theta_y, Theta_z, Omega_x, Omega_y, Omega_z):
     ''' 
