@@ -1,10 +1,7 @@
-pg 53 - pictures of joint models to clarify which joints I mean for each loading (section 4.3.1.1)
-  No current images to refer to.
+
 
 pg 55 - diagram showing axes and angles and where measurements were taken
 
-///pg 59 - diagram demonstrating trig equations
-  use matlab plot. lines from (0,0,0)
   
 pg 64 - determine what 3mm means at the distance we are testing
 
@@ -18,3 +15,7 @@ pg 78 - "I think there should be a whole section containing recommendations; you
 
 ////Need to add matlab code for grid of point testing
 
+///pg 53 - pictures of joint models to clarify which joints I mean for each loading (section 4.3.1.1)
+
+///pg 59 - diagram demonstrating trig equations
+  use matlab plot. lines from (0,0,0)
