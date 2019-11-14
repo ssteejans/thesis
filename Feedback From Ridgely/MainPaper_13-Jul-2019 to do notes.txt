@@ -5,7 +5,7 @@ pg 55 - diagram showing axes and angles and where measurements were taken
   
 pg 64 - determine what 3mm means at the distance we are testing
 
-pg 78 - "I think there should be a whole section containing recommendations; you've done a bunch of work and have learned a lot about the design. Some of this could just reference the design guidelines in section 4.3, as those will be somewhat more detailed when you get to this part."
+
 
 ////pg 54 - example design for motor holder with bearings that keep motor out of load path
 
@@ -15,7 +15,9 @@ pg 78 - "I think there should be a whole section containing recommendations; you
 
 ////Need to add matlab code for grid of point testing
 
-///pg 53 - pictures of joint models to clarify which joints I mean for each loading (section 4.3.1.1)
+////pg 53 - pictures of joint models to clarify which joints I mean for each loading (section 4.3.1.1)
 
-///pg 59 - diagram demonstrating trig equations
+////pg 59 - diagram demonstrating trig equations
   use matlab plot. lines from (0,0,0)
+  
+////pg 78 - "I think there should be a whole section containing recommendations; you've done a bunch of work and have learned a lot about the design. Some of this could just reference the design guidelines in section 4.3, as those will be somewhat more detailed when you get to this part."
