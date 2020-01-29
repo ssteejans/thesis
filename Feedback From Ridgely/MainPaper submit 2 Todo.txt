@@ -1,0 +1,22 @@
+pg 1 - Subtitle
+pg 4 - change emphasis of abstract
+INTRO - define plate solver
+pg 16 - brief discussion of how 'de-rotators' usually only roate the camera
+pg 24-29 - white boxes around text in images
+pg 29 - change red text to match other images
+pg 30 - maybe comment on how not being able to approach horizon isn't an issue
+pg 30 - clarify axes of rotation
+pg 34 - add description "the following equations are..."
+pg 36 - add analysis that shows that the forward calculation of desired position should be okay due to slow speeds, longish timesteps, reasonable stepper acceleration.
+pg 39 - change tense of whole section to present tense.
+pg 39 - discuss degrees of freedom which are restricted and which aren't for each joint assembly
+pg 44 - add discussion of how backlash can be negated through use of encoder on output side of gearbox
+pg 47 - mention how permanent magnet motors have power-off holding torque
+pg 55 - Add details to design guideline section. Select bearings etc.
+pg 58 - add detail on how bearings should be held in place. Specify angular contact and roller bearing or paired angular contact (such as commercially supplied). Angular contact are better at moment loads especially when the bearings are not at a distance from each other.
+pg 59 - Make sure everything is present tense
+pg 69 - Add estimates of the accuracy of my measurements. "These don't need to be really complicated calculations. Basic estimates based on things like how many pixels are in the width of a picture, how many frames per second are in the vid, and reasonable width of a laser pointer dot are good enough to be very helpful in understanding the limits of the accuracy of the tests" See pg 71. May be okay.
+pg 74 - numerical results?
+pg 80 - Stopped checking here. Need to continue
+
+
