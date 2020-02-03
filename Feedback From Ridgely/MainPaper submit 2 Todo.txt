@@ -18,5 +18,8 @@ pg 59 - Make sure everything is present tense
 pg 69 - Add estimates of the accuracy of my measurements. "These don't need to be really complicated calculations. Basic estimates based on things like how many pixels are in the width of a picture, how many frames per second are in the vid, and reasonable width of a laser pointer dot are good enough to be very helpful in understanding the limits of the accuracy of the tests" See pg 71. May be okay.
 pg 74 - numerical results?
 pg 80 - Stopped checking here. Need to continue
+pg 82 - "need numbers showing how much deviation there was between the measured points and where they were supposed to be."
+pg 83 - needs better explanation
+pg 86 - Conclusion way too short
 
 
