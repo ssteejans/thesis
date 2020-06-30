@@ -9,18 +9,19 @@ close all
 format compact
 
 %% Define desired angles
-altAngles = [0:.1:50]; %[10:0.1:20];
-azAngles = [-15:5:15]; %[-70:1:45];
+altAngles = [17, 20, 22.5, 25, 27.5, 30, 32.5, 35, 37.5, 40, 42]; [0:.1:50]; %[10:0.1:20];
+azAngles = 10; [-15:5:15]; %[-70:1:45];
 rotAngle = 0;
 pointStorage = zeros(length(altAngles), length(azAngles), 6);
 k = 1;
 
 for j = 1:length(azAngles)
     for i = 1:length(altAngles)
+        altAngles(i)
         pointStorage(i,j,1) = altAngles(i);
         pointStorage(i,j,2) = azAngles(j);
         pointStorage(i,j,3) = rotAngle;
-        pointStorage(i,j,4:6) = findPoints(pointStorage(i,j,1), pointStorage(i,j,2), pointStorage(i,j,3));
+        pointStorage(i,j,4:6) = findPoints(pointStorage(i,j,1), pointStorage(i,j,2), pointStorage(i,j,3))
         point(i,j, 1) = 10*pointStorage(i,j,4)/pointStorage(i,j,6);
         point(i,j, 2) = 10*pointStorage(i,j,5)/pointStorage(i,j,6);
     end
@@ -60,9 +61,9 @@ P1P2_length = norm(P1_h-P2_h);
 
 
 %% Calculate Allowable Lengths
-L_p1min = rssq(P1_h-P1_b);
-L_p2min = rssq(P2_h-P2_b);
-L_p3min = rssq(P3_h-P3_b);
+% L_p1min = rssq(P1_h-P1_b);
+% L_p2min = rssq(P2_h-P2_b);
+% L_p3min = rssq(P3_h-P3_b);
 
 
 %% Calculate Correction Angles \phi to Rotate from home position to alt = 0, az = 0 

@@ -1,0 +1,8 @@
+Outline:
+Motivation
+Math discussion
+Design discussion
+Testing procedure
+Test results
+then mech design improvments
+I think intro of mech design after testing results is a little out of order. It makes more sense to me to see the design first, then the results of its testing

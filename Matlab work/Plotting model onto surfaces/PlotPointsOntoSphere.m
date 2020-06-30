@@ -9,23 +9,24 @@ close all
 format compact
 
 %% Define desired angles
-altAngles = [0:.1:90]; %[10:0.1:20];
-azAngles = [-15:5:15]; %[-70:1:45];
+altAngles = [17:0.5:45]; %[10:0.1:20];
+azAngles = 10 %[-10:5:10]; %[-70:1:45];
 rotAngle = 0;
 pointStorage = zeros(length(altAngles), length(azAngles), 6);
 r = 1;
 
 for j = 1:length(azAngles)
     for i = 1:length(altAngles)
+        altAngles(i)
         pointStorage(i,j,1) = altAngles(i);
         pointStorage(i,j,2) = azAngles(j);
         pointStorage(i,j,3) = rotAngle;
         pointStorage(i,j,4:6) = findPoints(pointStorage(i,j,1), pointStorage(i,j,2), pointStorage(i,j,3));
         %% Apply Intersection Equation
         OA_r = pointStorage(i,j,4:6);
-        x1 = OA_r(1);
-        y1 = OA_r(2);
-        z1 = OA_r(3);
+        x1 = OA_r(1)
+        y1 = OA_r(2)
+        z1 = OA_r(3)
         t = sqrt(4*(x1^2+y1^2+z1^2)*r^2)/(2*(x1^2+y1^2+z1^2));
         point(i,j, 1) = x1*t;
         point(i,j, 2) = y1*t;
@@ -74,9 +75,9 @@ P1P2_length = norm(P1_h-P2_h);
 
 
 %% Calculate Allowable Lengths
-L_p1min = rssq(P1_h-P1_b);
-L_p2min = rssq(P2_h-P2_b);
-L_p3min = rssq(P3_h-P3_b);
+% L_p1min = rssq(P1_h-P1_b);
+% L_p2min = rssq(P2_h-P2_b);
+% L_p3min = rssq(P3_h-P3_b);
 
 
 %% Calculate Correction Angles \phi to Rotate from home position to alt = 0, az = 0 
