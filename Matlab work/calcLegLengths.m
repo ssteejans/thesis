@@ -1,8 +1,8 @@
 function [ L_p1, L_p2, L_p3, valid ] = calcLegLengths(O_alt, O_az, O_rot)
 
-O_alt = deg2rad(O_alt);
-O_az = deg2rad(O_az);
-O_rot = deg2rad(O_rot);
+% O_alt = deg2rad(O_alt);
+% O_az = deg2rad(O_az);
+% O_rot = deg2rad(O_rot);
 %% Define Base Positions
 % All subjective directions (left/right) based on an observer operating the telescope
 P0_b = [0,0,0]';    % Origin with respect to the base
@@ -20,9 +20,9 @@ OA_h = [-4.0   3.75   16.25]';
 P1P2_length = norm(P1_h-P2_h);
 
 %% Calculate Minimum Lengths
-L_p1min = rssq(P1_h-P1_b);
-L_p2min = rssq(P2_h-P2_b);
-L_p3min = rssq(P3_h-P3_b);
+% L_p1min = rssq(P1_h-P1_b);
+% L_p2min = rssq(P2_h-P2_b);
+% L_p3min = rssq(P3_h-P3_b);
 
 %% Calculate Correction Angles \phi to Rotate from home position to alt = 0, az = 0 
 phi_az = -atan2(OA_h(1), OA_h(3));
@@ -44,9 +44,9 @@ RotZ = @(theta) [cos(theta), -sin(theta), 0;
 % Rotations Azimuth->Altitude->Image Rotation
 sTb = RotZ(O_rot+phi_rot)*RotX(-O_alt+phi_alt)*RotY(-O_az+phi_az);
 
-syms Oz Ox Oy
+%syms Oz Ox Oy
 
-sTbsyms = RotZ(Oz)*RotX(Ox)*RotY(Oy);
+%sTbsyms = RotZ(Oz)*RotX(Ox)*RotY(Oy);
 %% Rotate
 P0_r = sTb*P0_h;
 P1_r = sTb*P1_h;
@@ -59,12 +59,12 @@ L_p1 = norm(P1_r-P1_b);
 L_p2 = norm(P2_r-P2_b);
 L_p3 = norm(P3_r-P3_b);
 
-if (L_p1<L_p1min)||(L_p2<L_p2min)||(L_p3<L_p3min)
-    valid = 0;
-    %disp('This is not a valid input')
-else
-    valid = 1;
-end
-
+% if (L_p1<L_p1min)||(L_p2<L_p2min)||(L_p3<L_p3min)
+%     valid = 0;
+%     %disp('This is not a valid input')
+% else
+%     valid = 1;
+% end
+valid = 1;
 end
 

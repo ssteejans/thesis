@@ -10,7 +10,7 @@ format compact
 
 %% Define desired angles
 altAngles = [17:0.5:45]; %[10:0.1:20];
-azAngles = 10 %[-10:5:10]; %[-70:1:45];
+azAngles = 0 %[-10:5:10]; %[-70:1:45];
 rotAngle = 0;
 pointStorage = zeros(length(altAngles), length(azAngles), 6);
 r = 1;

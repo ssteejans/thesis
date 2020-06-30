@@ -7,8 +7,8 @@ clear all
 close all
 format compact
 %% Define Angles \theta
-O_alt = deg2rad(17);     % Altitude
-O_az = 0%deg2rad(0);     % Azimuth
+O_alt = .4 %deg2rad(17)     % Altitude
+O_az = -0.25 %deg2rad(0);     % Azimuth
 O_rot = deg2rad(0);     % Rotation - Positive is Clockwise from perspective 
                                 % of observer operating telescope
 
@@ -48,9 +48,9 @@ RotZ = @(theta) [cos(theta), -sin(theta), 0;
 % Rotations Azimuth->Altitude->Image Rotation
 sTb = RotZ(O_rot+phi_rot)*RotX(-O_alt+phi_alt)*RotY(-O_az+phi_az);
 
-syms Oz Ox Oy
+%syms Oz Ox Oy
 
-sTbsyms = RotZ(Oz)*RotX(Ox)*RotY(Oy)
+%sTbsyms = RotZ(Oz)*RotX(Ox)*RotY(Oy)
 %% Rotate
 P0_r = sTb*P0_h;
 P1_r = sTb*P1_h;
