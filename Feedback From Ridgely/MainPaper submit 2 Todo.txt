@@ -1,20 +1,25 @@
 pg 1 - subtitle
 pg 4 - change emphasis of abstract
-pg 24-29 - white boxes around text in images
-pg 29 - change red text to match other images
 pg 55 - add details to design guideline section. select bearings etc.
-pg 59 - make sure everything is present tense
+          expanded this some but not sure what else to say:-/ bah.
 pg 86 - conclusion way too short
+tense - everything i did should be present tense. everything garrett did past tense
 
-pg 39 - discuss degrees of freedom which are restricted and which aren't for each joint assembly
+
+
+
 
 
 
 --intro - define plate solver (moved to pg 46)
 --pg 16 - brief discussion of how 'de-rotators' usually only rotate the camera
+--pg 24-29 - white boxes around text in images (not feasible)
+--pg 29 - change red text to match other images
 --pg 30 - maybe comment on how not being able to approach horizon isn't an issue
 --pg 30 - clarify axes of rotation - i'm fine with the explanation as is. it clarifies in later paragraphs
 --pg 39 - change tense of whole section to present tense.
+--pg 39 - discuss degrees of freedom which are restricted and which aren't for each joint assembly
+
 --pg 34 - add description "the following equations are..."
 --pg 36 - add analysis that shows that the forward calculation of desired position should be okay due to slow speeds, longish timesteps, reasonable stepper acceleration. need to calculate required motor angular acceleration to be at constant angular velocity for a percentage of the timestep. 
 --pg 44 - add discussion of how backlash can be negated through use of encoder on output side of gearbox
