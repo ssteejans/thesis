@@ -1,9 +1,9 @@
-pg 1 - subtitle
-pg 4 - change emphasis of abstract
+??pg 1 - subtitle
+??pg 4 - change emphasis of abstract
 pg 55 - add details to design guideline section. select bearings etc.
           expanded this some but not sure what else to say:-/ bah.
 pg 86 - conclusion way too short
-tense - everything i did should be present tense. everything garrett did past tense
+
 
 
 
