@@ -6,3 +6,12 @@ Testing procedure
 Test results
 then mech design improvments
 I think intro of mech design after testing results is a little out of order. It makes more sense to me to see the design first, then the results of its testing
+
+
+ I think you have the right basic idea, and
+the main topics look good.  I think it's best to emphasize that you've
+been working to verify and improve a design methodology, and emphasize
+that all this testing has been about the design, not just a testing
+thesis -- it will be a lot easier to gain approval from that angle.
+Otherwise you might have to explain the above on the fly in response to
+questions, a more stressful option.
